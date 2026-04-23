@@ -27,8 +27,10 @@
     </div>
 </section>
 
+{% if not logged_in %}
 <section class="about-section">
     <h2>Why Choose Us?</h2>
     <p>Our Attendance Management System is designed for simplicity and efficiency. Whether you manage a school, business, or club, our platform adapts to your needs and grows with you.</p>
 </section>
+{% endif %}
 {% endblock %}

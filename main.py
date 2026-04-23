@@ -17,11 +17,13 @@ with app.app_context():
 
 @app.route("/")
 def hello_world():
-    return render_template("home.html")
+    user = session.get("user.id")
+    return render_template("home.html", user=user)
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    user = session.get("user.id")
+    return render_template("about.html", user=user)
 
 @app.route("/signup",methods=["POST","GET"])
 def signup():
@@ -29,6 +31,12 @@ def signup():
         name = request.form.get("name")
         email = request.form.get("email")
         password = request.form.get("password")
+        db_user=User.query.filter_by(email=email).first()
+        if db_user:
+            return render_template("Signup.html",error="user already exists")
+        user=User(name=name,email=email,password=password)
+        if db_user:
+            return render_template("Signup.html",error="username already exists")
         user=User(name=name,email=email,password=password)
         db.session.add(user)
         db.session.commit()
